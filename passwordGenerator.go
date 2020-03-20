@@ -30,6 +30,9 @@ func parseArgs() {
 }
 
 func generatePassword() string {
+	if length <= 0 || length > 128 {
+		length = 16
+	}
 	var password []byte = make([]byte, 0, length)
 	rand.Seed(time.Now().Unix())
 	temp := ""
