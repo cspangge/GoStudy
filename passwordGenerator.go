@@ -16,11 +16,15 @@ const (
 	numberstr  = "0123456789"
 	charstr    = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ"
 	specialstr = "~!@#$%^&*()_+"
+	min        = 0
+	max        = 128
+	defaultLen = 16
+	defaultSet = "num"
 )
 
 func parseArgs() {
-	flag.IntVar(&length, "l", 16, "-l password_length")
-	flag.StringVar(&charset, "t", "num",
+	flag.IntVar(&length, "l", defaultLen, "-l password_length")
+	flag.StringVar(&charset, "t", defaultSet,
 		`-t password generation charset
 	num: Only use number [0-9] to generate password
 	char: Only use letter [a-zA-Z] to generate password
@@ -30,8 +34,8 @@ func parseArgs() {
 }
 
 func generatePassword() string {
-	if length <= 0 || length > 128 {
-		length = 16
+	if length <= min || length > max {
+		length = defaultLen
 	}
 	var password []byte = make([]byte, 0, length)
 	rand.Seed(time.Now().Unix())
